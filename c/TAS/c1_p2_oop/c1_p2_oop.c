@@ -3,15 +3,9 @@
 
 
 int main(void) {
-    FILE_PERMS *user = __FILE_PERMS__create();
-    __FILE_PERMS__setPermission(user, READ);
-    __FILE_PERMS__setPermission(user, WRITE);
-    __FILE_PERMS__setPermission(user, COPY);
-    __FILE_PERMS__setPermission(user, DELETE);
-    __FILE_PERMS__unsetPermission(user, READ);
-    __FILE_PERMS__unsetPermission(user, COPY);
-    printf("%u\n", __FILE_PERMS__checkPermission(user, WRITE));
-    printf("%u", __FILE_PERMS__checkPermission(user, DELETE));
+    FILE_PERMS *user = __FILE_PERMS__create(READ | WRITE | COPY | DELETE);
+    __FILE_PERMS__unsetPermissions(user, READ | COPY);
+    printf("%hhu", __FILE_PERMS__checkPermissions(user, DELETE | WRITE));
     __FILE_PERMS__destroy(user);
 
     printf("\n");

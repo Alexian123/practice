@@ -1,28 +1,24 @@
 #include <stdlib.h>
 #include "permissions.h"
 
-#define TRUE 1
-#define FALSE 0
-
-typedef unsigned char boolean;
-
 typedef struct _FilePermisions
 {
-    boolean read:1;
-    boolean write:1;
-    boolean delete:1;
-    boolean rename:1;
-    boolean copy:1;
+    uint8_t read:1;
+    uint8_t write:1;
+    uint8_t delete:1;
+    uint8_t rename:1;
+    uint8_t copy:1;
 } FP;
 
 
 /* 'public' methods -------------- */
 
-FP *__FILE_PERMS__create() {
+FP *__FILE_PERMS__create(uint8_t perms) {
     FP *fp = malloc(sizeof(FP));
     if (!fp)
         return NULL;
-    fp->read = fp->write = fp->delete = fp->rename = fp->copy = FALSE;
+    fp->read = fp->write = fp->delete = fp->rename = fp->copy = 0;
+    __FILE_PERMS__setPermissions(fp, perms);
     return fp;
 }
 
@@ -31,67 +27,19 @@ void __FILE_PERMS__destroy(FP *fp) {
     free(fp);
 }
 
-void __FILE_PERMS__setPermission(FP *fp, enum Permission perm) {
-    if (!fp)
-        return;
-    switch (perm) {
-        case READ:
-            fp->read = TRUE;
-            break;
-        case WRITE:
-            fp->write = TRUE;
-            break;
-        case DELETE:
-            fp->delete = TRUE;
-            break;
-        case RENAME:
-            fp->rename = TRUE;
-            break;
-        case COPY:
-            fp->copy = TRUE;
-            break;
-    } 
+void __FILE_PERMS__setPermissions(FP *fp, uint8_t perms) {
+    uint8_t *p = (uint8_t*) fp;
+    *p |= perms;
 }
 
-void __FILE_PERMS__unsetPermission(FP *fp, enum Permission perm) {
-    if (!fp)
-        return;
-    switch (perm) {
-        case READ:
-            fp->read = FALSE;
-            break;
-        case WRITE:
-            fp->write = FALSE;
-            break;
-        case DELETE:
-            fp->delete = FALSE;
-            break;
-        case RENAME:
-            fp->rename = FALSE;
-            break;
-        case COPY:
-            fp->copy = FALSE;
-            break;
-    } 
+void __FILE_PERMS__unsetPermissions(FP *fp, uint8_t perms) {
+    uint8_t *p = (uint8_t*) fp;
+    *p &= ~perms;
 }
 
-boolean __FILE_PERMS__checkPermission(const FP *fp, enum Permission perm) {
-    if (!fp)
-        return FALSE;
-    switch (perm) {
-        case READ:
-            return fp->read;
-        case WRITE:
-            return fp->write;
-        case DELETE:
-            return fp->delete;
-        case RENAME:
-            return fp->rename;
-        case COPY:
-            return fp->copy;
-        default:
-            return FALSE;
-    } 
+uint8_t __FILE_PERMS__checkPermissions(const FP *fp, uint8_t perms) {
+    const uint8_t *p = (const uint8_t*) fp;
+    return (*p & perms) == perms;
 }
 
 /* -------------- */
