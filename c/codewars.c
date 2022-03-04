@@ -5,119 +5,70 @@
 #include <limits.h>
 #include <stdbool.h>
 
-#define MAX_PINS 27
-
-size_t power(size_t a, size_t b) {
-    size_t p = 1;
-    for (size_t i = 0; i < b; ++i)
-        p *= a;
-    return p;
+bool is_prime(size_t n) {
+    for (size_t i = 2; i*i <= n; ++i)
+        if (n % i == 0)
+            return false;
+    return n >= 2;
 }
 
-void add_pin_with_changed_digit(char **pins, size_t *count, const char *observed, size_t index, int digit) {
-    strcpy(pins[*count], observed);
-    pins[*count][index] = digit + '0'; 
-    ++(*count);
+int get_max_int(int *arr, size_t n) {
+    int max = arr[0];
+    for (size_t i = 1; i < n; ++i)
+        if (arr[i] > max)
+            max = arr[i];
+    return max;
 }
 
-char **get_pins(const char *observed, size_t *count) {
-    if (!count)
-        return NULL;
-    if (!observed) {
-        *count = 0;
-        return NULL;
-    }
-    *count = 1;
+char *sumOfDivided(int *arr, size_t n) {
+    static const size_t MAX_TOTAL_LEN = 2048;
+    static const size_t MAX_ELEM_LEN = 64;
+    char *str = malloc(MAX_TOTAL_LEN);
+    memset(str, 0, MAX_TOTAL_LEN);
+    char *elem = malloc(MAX_ELEM_LEN);
+    memset(elem, 0, MAX_ELEM_LEN);
 
-    const size_t pin_length = strlen(observed);
-    char **pins = malloc(MAX_PINS * sizeof(char*));
-    if (!pins) {
-        *count = 0;
-        return NULL;
-    }
-    for (size_t i = 0; i < MAX_PINS; ++i) {
-        pins[i] = malloc(pin_length + 1);
-        if (!pins[i]) { // cleanup
-            *count = 0;
-            for (size_t j = 0; j < i; ++j)
-                free(pins[j]);
-            free(pins);
-            return NULL;
+    // handle 2 separately
+    bool found = false;
+    int sum = 0;
+    for (size_t i = 0; i < n; ++i) {
+        if (arr[i] % 2 == 0) {
+            found = true;
+            sum += arr[i];
         }
     }
-    strcpy(pins[0], observed);
+    if (found) {
+        sprintf(elem, "(%d %d)", 2, sum);
+        strcat(str, elem);
+    }
 
-    for (size_t i = 0; i < pin_length; ++i) {
-        int digit = observed[i] - '0';
-        switch (digit) {
-            case 0:
-                add_pin_with_changed_digit(pins, count, observed, i, 8);
-                break;
-            case 1:
-                add_pin_with_changed_digit(pins, count, observed, i, 4);
-                add_pin_with_changed_digit(pins, count, observed, i, 2);
-                break;
-            case 2:
-                add_pin_with_changed_digit(pins, count, observed, i, 1);
-                add_pin_with_changed_digit(pins, count, observed, i, 5);
-                add_pin_with_changed_digit(pins, count, observed, i, 3);
-                break;
-            case 3:
-                add_pin_with_changed_digit(pins, count, observed, i, 2);
-                add_pin_with_changed_digit(pins, count, observed, i, 6);
-                break;
-            case 4:
-                add_pin_with_changed_digit(pins, count, observed, i, 1);
-                add_pin_with_changed_digit(pins, count, observed, i, 5);
-                add_pin_with_changed_digit(pins, count, observed, i, 7);
-                break;
-            case 5:
-                add_pin_with_changed_digit(pins, count, observed, i, 2);
-                add_pin_with_changed_digit(pins, count, observed, i, 4);
-                add_pin_with_changed_digit(pins, count, observed, i, 6);
-                add_pin_with_changed_digit(pins, count, observed, i, 8);
-                break;
-            case 6:
-                add_pin_with_changed_digit(pins, count, observed, i, 3);
-                add_pin_with_changed_digit(pins, count, observed, i, 5);
-                add_pin_with_changed_digit(pins, count, observed, i, 9);
-                break;
-            case 7:
-                add_pin_with_changed_digit(pins, count, observed, i, 4);
-                add_pin_with_changed_digit(pins, count, observed, i, 8);
-                break;
-            case 8:
-                add_pin_with_changed_digit(pins, count, observed, i, 5);
-                add_pin_with_changed_digit(pins, count, observed, i, 7);
-                add_pin_with_changed_digit(pins, count, observed, i, 9);
-                add_pin_with_changed_digit(pins, count, observed, i, 0);
-                break;
-            case 9:
-                add_pin_with_changed_digit(pins, count, observed, i, 6);
-                add_pin_with_changed_digit(pins, count, observed, i, 8);
-                break;
+    int max = get_max_int(arr, n);
+    for (size_t i = 3; i <= max; i += 2) {
+        if (is_prime(i)) {
+            found = false;
+            sum = 0;
+            for (size_t j = 0; j < n; ++j) {
+                if (arr[j] % i == 0) {
+                    found = true;
+                    sum += arr[j];
+                }
+            }
+            if (found) {
+                sprintf(elem, "(%lu %d)", i, sum);
+                strcat(str, elem);
+            }
         }
     }
-    
 
-    return pins;
-}
-
-void free_pins(char **pins) {
-    if (!pins)
-        return;
-    for (size_t i = 0; i < MAX_PINS; ++i)
-        free(pins[i]);
-    free(pins);        
+    free(elem);
+    return str;
 }
 
 int main(void) {
-    size_t count = 0;
-    char **pins = get_pins("123", &count);
-    printf("%lu\n", count);
-    for (size_t i = 0; i < count; ++i)
-        printf("%s\n", pins[i]);
-    free_pins(pins);
+    int arr[] = {107, 158, 204, 100, 118, 123, 126, 110, 116, 100};
+    size_t n = 10;
+    char *str = sumOfDivided(arr, n);
+    printf("%s", str);
     printf("\n");
     return 0;
 }
