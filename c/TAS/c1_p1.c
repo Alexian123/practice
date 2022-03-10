@@ -10,11 +10,11 @@
 // constants
 #define MAX_NUM 1000
 #define BS 8
-#define N (MAX_NUM / BS + 1)
+#define ARR_LEN (MAX_NUM / BS + 1)
 
 int main(void) {
-    uint8_t arr[N] = {0};
-    const size_t n = N;
+    uint8_t arr[ARR_LEN] = {0};
+    const size_t n = ARR_LEN;
 
     // read
     uint16_t x = 0;
