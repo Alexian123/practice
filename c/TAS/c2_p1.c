@@ -1,32 +1,27 @@
 #include <stdio.h>
-#include "stack_arr.h"
+
+#define MAX_STACK_SIZE 256
 
 int manna_pnueli(int x) {
     return (x >= 12) ? (x - 1) : manna_pnueli(manna_pnueli(x + 2));
 }
 
 int manna_pnueli_stack(int x) {
-    Stack *s = createStack(16);
-    push(s, x);
-    int y;
+    static int st[MAX_STACK_SIZE] = { 0 };
+    size_t size = 0;
+    st[size++] = x;
 
-    for (;;) {
-        y = pop(s);
-        if (getStackSize(s) == 0 && y >= 12) {
-            break;
-        }
-
-        if (y < 12) {
-            push(s, y);
-            push(s, y + 2);
+    while (size) {
+        x = st[size - 1];
+        if (x < 12) {
+            st[size++] = x + 2;
         } else {
-            pop(s);
-            push(s, y - 1);
+            --size;
+            st[size - 1] = x - 1;
         }
     }
 
-    destroyStack(s);
-    return y - 1;
+    return x - 1;
 }
 
 int main(void) {
