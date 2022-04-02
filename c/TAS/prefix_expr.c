@@ -1,6 +1,6 @@
 /*  PREFIX NOTATION EVALUATION
    - the terms must be letters from the English alphabet (uppercase or lowercase);
-   - you must provide an array of values (doubles) for the expression terms;
+   - you must provide an array of values (doubles) for the expression terms in order;
    - the length of the array will not be verified;
    - the index parameter represents a pointer to the index of the first element of the array.
 */

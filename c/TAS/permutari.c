@@ -1,4 +1,4 @@
-// permutari de n
+// 3.1 - permutari de n
 
 #include <stdio.h>
 
@@ -11,7 +11,7 @@ void Init(int k) { // k – vârful stivei
     v[k] = 0; // iniţializează/resetează, valoarea din vârful stivei
 }
 
-int Succesor(int k) {
+int Successor(int k) {
     if (v[k] < n) { // se poate creşte valoarea din vârf
         v[k]++; // se incrementează valoarea din vârf
         return 1;  // funcţia a avut success
@@ -45,7 +45,7 @@ void Back(int n) {
         isS = isV = 0;
         if (k <= n) { // nu are sens depăşirea nivelului n în stivă
             do { // repetă cât timp...
-                isS = Succesor(k);
+                isS = Successor(k);
                 if (isS) 
                     isV = Valid(k);
             } while (isS && !isV); // ...există succesor dar nu este valid

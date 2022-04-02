@@ -1,3 +1,5 @@
+// 2.1
+
 #include <stdio.h>
 
 #define MAX_STACK_SIZE 256

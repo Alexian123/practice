@@ -1,20 +1,19 @@
-// problema reginelor
+// 3.4
 
 #include <stdio.h>
 #include <stdlib.h>
 
 #define MAX_SIZE 100
-
 #define ROWS 8
 #define COLS 8
 
-typedef struct
+struct P
 {
     int i;
     int j;
-} P;
+};
 
-static P st[MAX_SIZE];
+static struct P st[MAX_SIZE];
 
 void Init(int k) {
     st[k].i = -1;
