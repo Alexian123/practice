@@ -3,7 +3,6 @@
 
 #include "mytar.h"
 
-
 int main(int argc, char **argv) {
     if (argc < 2) { // usage tip
         printf("Usage: %s [OPTION...] [FILE]...\n", argv[0]);

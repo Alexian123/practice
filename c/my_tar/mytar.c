@@ -1,8 +1,18 @@
+/** TODO: 
+ *          - fread and fwrite error checking 
+ *          - issue a warning if the archive does not have an end marker
+ *          - set all fields for each file (not just name, size and chksum)
+ *          - created archives should be compatible with GNU Tar
+ *          - handle directories
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "mytar.h"
+
+#define BLOCK_SIZE 512 // bytes
 
 static struct posix_header
 {                              /* byte offset */
@@ -25,14 +35,8 @@ static struct posix_header
                                 /* 500 */
 } header;
 
-// store BLOCK_SIZE bytes of data
-static char block[BLOCK_SIZE] = { 0 };
+static char block[BLOCK_SIZE] = { 0 }; // store BLOCK_SIZE bytes of data
 
-/** TODO: - fread and fwrite error checking 
- *        - issue a warning if the archive does not have an end marker
- *        - set all fields for each file (not just name, size and chksum)
- *        - created archives should be compatible with GNU Tar
-*/
 static void read_block(FILE *ar); // read a block of BLOCK_SIZE bytes
 static void write_block(FILE *ar); // write a block of BLOCK_SIZE bytes
 static char is_block_null(); // check if last read block contains only null bytes
@@ -67,7 +71,7 @@ void mytar_extract(const char *ar_name) {
         read_block(ar);
         if (is_block_null()) // end of archive marker
             break;
-        memcpy(&header, block, sizeof(header)); // copy header from read block
+        read_header();
         file_size = read_file_size();
         read_file(ar, file_size);
     }
@@ -107,7 +111,7 @@ void mytar_print(const char *ar_name) {
         read_block(ar);
         if (is_block_null()) // end of archive marker
             break;
-        memcpy(&header, block, sizeof(header)); // copy header from read block
+        read_header();
         print_header();
         file_size = read_file_size();
         // find the next header and ignore file data
@@ -121,6 +125,7 @@ void mytar_print(const char *ar_name) {
 }
 
 void read_block(FILE *ar) {
+    memset(block, 0, BLOCK_SIZE); // reset block
     fread(block, 1, BLOCK_SIZE, ar);
 }
 
@@ -136,7 +141,7 @@ char is_block_null() {
 }
 
 void init_header() {
-    memset(&header, 0, sizeof(header)); // set header to zeros
+    memset(&header, 0, sizeof(header)); // reste header
     strcpy(header.mode, "0000664");
     strcpy(header.uid, "0001750");
     strcpy(header.gid, "0001750");
@@ -176,7 +181,8 @@ void create_header(const char *file_name, long size) {
 }
 
 void read_header() {
-
+    memset(&header, 0, sizeof(header)); // reset header
+    memcpy(&header, block, sizeof(header)); // copy header from read block
 }
 
 void write_header(FILE *ar) {
@@ -186,7 +192,22 @@ void write_header(FILE *ar) {
 }
 
 void read_file(FILE *ar, long size) {
-
+    if (size == 0) // nothing to read
+        return;
+    FILE *f = fopen(header.name, "wb");
+    if (!f)
+        fail_with_msg("Could not extract file");
+    int num_full_blocks = size / BLOCK_SIZE;
+    for (int i = 0; i < num_full_blocks; ++i) {
+        read_block(ar);
+        fwrite(block, 1, BLOCK_SIZE, f);
+    }
+    int remainder = size % BLOCK_SIZE;
+    if (remainder) { // smaller block (< 512M)
+        read_block(ar);
+        fwrite(block, 1, remainder, f);
+    }
+    fclose(f);
 }
 
 void write_file(FILE *ar, FILE *f, long size) {
