@@ -41,7 +41,7 @@ void generate_pins_7_digit(char **pins, size_t *count, const int *digits);
 void generate_pins_8_digit(char **pins, size_t *count, const int *digits);
 
 // will assume malloc won't ever fail for simplicity
-const char **get_pins(const char *observed, size_t *count) {
+char **get_pins(const char *observed, size_t *count) {
     *count = 0;
     size_t len = strlen(observed);
     // allocate for max num of possible pins 
@@ -76,7 +76,7 @@ const char **get_pins(const char *observed, size_t *count) {
     return pins;
 }
 
-void free_pins(const char **pins) {
+void free_pins(char **pins) {
     if (!pins)
         return;
     size_t i = 0;

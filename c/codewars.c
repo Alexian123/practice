@@ -1,74 +1,62 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
-#include <limits.h>
 #include <stdbool.h>
 
-bool is_prime(size_t n) {
-    for (size_t i = 2; i*i <= n; ++i)
-        if (n % i == 0)
-            return false;
-    return n >= 2;
+void printSolution(int count, unsigned int board[9][9]) {
+  printf("solution #%d\n", count);
+  for (int i = 0; i < 9; ++i) {
+    for (int j = 0; j < 9; ++j)
+      printf("%d ", board[i][j]);
+    printf("\n");
+  }
+  printf("\n");
 }
 
-int get_max_int(int *arr, size_t n) {
-    int max = arr[0];
-    for (size_t i = 1; i < n; ++i)
-        if (arr[i] > max)
-            max = arr[i];
-    return max;
-}
-
-char *sumOfDivided(int *arr, size_t n) {
-    static const size_t MAX_TOTAL_LEN = 2048;
-    static const size_t MAX_ELEM_LEN = 64;
-    char *str = malloc(MAX_TOTAL_LEN);
-    memset(str, 0, MAX_TOTAL_LEN);
-    char *elem = malloc(MAX_ELEM_LEN);
-    memset(elem, 0, MAX_ELEM_LEN);
-
-    // handle 2 separately
-    bool found = false;
-    int sum = 0;
-    for (size_t i = 0; i < n; ++i) {
-        if (arr[i] % 2 == 0) {
-            found = true;
-            sum += arr[i];
+bool validSolution(unsigned int board[9][9]) {
+    for (int i = 0; i < 9; ++i) {
+        for (int j = 0; j < 9; ++j) {
+            if (board[i][j] == 0)
+                return false;
+      
+            // search for board[i][j] on row i and then on col j
+            // if it appears more than once, the solution is invalid
+            for (int k = 0; k < 9; ++k)
+                if (k == j)
+                    continue;
+                else if (board[i][k] == board[i][j])
+                    return false;
+            
+            for (int k = 0; k < 9; ++k)
+                if (k == i)
+                    continue;
+                else if (board[k][j] == board[i][j])
+                    return false;
         }
     }
-    if (found) {
-        sprintf(elem, "(%d %d)", 2, sum);
-        strcat(str, elem);
-    }
-
-    int max = get_max_int(arr, n);
-    for (size_t i = 3; i <= max; i += 2) {
-        if (is_prime(i)) {
-            found = false;
-            sum = 0;
-            for (size_t j = 0; j < n; ++j) {
-                if (arr[j] % i == 0) {
-                    found = true;
-                    sum += arr[j];
-                }
-            }
-            if (found) {
-                sprintf(elem, "(%lu %d)", i, sum);
-                strcat(str, elem);
-            }
-        }
-    }
-
-    free(elem);
-    return str;
+    return true;
 }
 
 int main(void) {
-    int arr[] = {107, 158, 204, 100, 118, 123, 126, 110, 116, 100};
-    size_t n = 10;
-    char *str = sumOfDivided(arr, n);
-    printf("%s", str);
-    printf("\n");
+    unsigned int example1[9][9] =  {{5, 3, 4, 6, 7, 8, 9, 1, 2}, 
+                                    {6, 7, 2, 1, 9, 5, 3, 4, 8},
+                                    {1, 9, 8, 3, 4, 2, 5, 6, 7},
+                                    {8, 5, 9, 7, 6, 1, 4, 2, 3},
+                                    {4, 2, 6, 8, 5, 3, 7, 9, 1},
+                                    {7, 1, 3, 9, 2, 4, 8, 5, 6},
+                                    {9, 6, 1, 5, 3, 7, 2, 8, 4},
+                                    {2, 8, 7, 4, 1, 9, 6, 3, 5},
+                                    {3, 4, 5, 2, 8, 6, 1, 7, 9}};
+                             
+    unsigned int example2[9][9] =  {{5, 3, 4, 6, 7, 8, 9, 1, 2}, 
+                                    {6, 7, 2, 1, 9, 0, 3, 4, 8},
+                                    {1, 0, 0, 3, 4, 2, 5, 6, 0},
+                                    {8, 5, 9, 7, 6, 1, 0, 2, 0},
+                                    {4, 2, 6, 8, 5, 3, 7, 9, 1},
+                                    {7, 1, 3, 9, 2, 4, 8, 5, 6},
+                                    {9, 0, 1, 5, 3, 7, 2, 1, 4},
+                                    {2, 8, 7, 4, 1, 9, 6, 3, 5},
+                                    {3, 0, 0, 4, 8, 1, 1, 7, 9}};
+    
+    printf("%d\n%d\n", validSolution(example1), validSolution(example2));
     return 0;
 }
