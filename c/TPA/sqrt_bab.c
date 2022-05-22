@@ -1,19 +1,23 @@
 // recursivitate - aplicatia 2
 #include <stdio.h>
-#include <stdlib.h>
 
-double __my_sqrt(double x, double init, size_t steps) {
-    if (steps == 0 || x == 0)
-        return init;
-    return __my_sqrt(x, 0.5 * (init + x / init), steps - 1);
+// initial call: __my_sqrt(n,n,1,p)
+double __my_sqrt(double n, double x, double y, double p) {
+    if (x - y <= p)
+        return x;
+    double new_x = (x + y) / 2;
+    return __my_sqrt(n, new_x, n / new_x, p);
 }
 
-double my_sqrt(size_t num) {
-    return __my_sqrt((double) num, 1, 100);
+// wrapper
+double my_sqrt(unsigned n, double precision) {
+    if (n == 0 || n == 1)
+        return n;
+    return __my_sqrt(n, n, 1, precision);
 }
 
 int main(void) {
-    for (size_t i = 0; i <= 100; ++i)
-        printf("sqrt(%lu) = %f\n", i, my_sqrt(i));
+    for (unsigned i = 0; i <= 100; ++i)
+        printf("sqrt(%u) = %f\n", i, my_sqrt(i, 1e-6));
     return 0;
 }
