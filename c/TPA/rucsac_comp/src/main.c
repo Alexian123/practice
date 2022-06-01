@@ -5,6 +5,8 @@
 #include <time.h>
 #include "object.h"
 
+#define MILIS_PER_SECOND 1000
+
 #define NUM_INPUT_FILES 11
 #define MAX_FILE_NAME_LEN 32
 
@@ -46,8 +48,8 @@ int main(void) {
         t2 = clock();
 
         // print data
-        printf("N: %ld\nGreedy solution: %d -> time: %lfs\nBacktracking solution: %d -> time: %lfs\n", 
-                i + 5, greedy, (double) (t1 - t0) / CLOCKS_PER_SEC, back, (double) (t2 - t1) / CLOCKS_PER_SEC);
+        printf("N: %ld\nGreedy solution: %d -> time: %lfms\nBacktracking solution: %d -> time: %lfms\n", 
+                i + 5, greedy, ((double) (t1 - t0) / CLOCKS_PER_SEC) * MILIS_PER_SECOND, back, ((double) (t2 - t1) / CLOCKS_PER_SEC) * MILIS_PER_SECOND);
         printf("---------------------------------------------------------------\n\n");
 
     }
