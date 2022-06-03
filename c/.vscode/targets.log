@@ -8,14 +8,14 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Mon May 30 17:55:46 2022
+# Make data base, printed on Thu Jun  2 23:23:05 2022
 
 # Variables
 
 # environment
 LC_ALL = C
 # environment
-STARSHIP_SESSION_KEY = 1784715090230663
+STARSHIP_SESSION_KEY = 2930521434119397
 # environment
 WSLENV = VSCODE_WSL_EXT_LOCATION/up
 # environment
@@ -107,7 +107,7 @@ HOSTTYPE = x86_64
 # automatic
 +F = $(notdir $+)
 # environment
-WSL_INTEROP = /run/WSL/11_interop
+WSL_INTEROP = /run/WSL/17_interop
 # 'override' directive
 GNUMAKEFLAGS := 
 # environment
@@ -127,7 +127,7 @@ STARSHIP_SHELL = zsh
 # environment
 _ = /home/alexian/.vscode-server/bin/c3511e6c69bb39013c4a4b7b9566ec1ca73fc4d5/node
 # environment
-VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-9f845275-6934-4fd4-a0e7-e4a6779b1ff5.sock
+VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-2673d932-51c9-48a2-af75-e7643d7722dd.sock
 # environment
 VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 # environment
@@ -213,6 +213,6 @@ GNUmakefile:
 # strcache performance: lookups = 28 / hit rate = 10%
 # hash-table stats:
 # Load=25/8192=0%, Rehash=0, Collisions=0/28=0%
-# Finished Make data base on Mon May 30 17:55:46 2022
+# Finished Make data base on Thu Jun  2 23:23:05 2022
 
  
