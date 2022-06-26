@@ -1,6 +1,4 @@
 make all --print-data-base --no-builtin-variables --no-builtin-rules --question
-make: *** No rule to make target 'all'.  Stop.
-
 # GNU Make 4.3
 # Built for x86_64-pc-linux-gnu
 # Copyright (C) 1988-2020 Free Software Foundation, Inc.
@@ -8,16 +6,16 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Thu Jun  2 23:23:05 2022
+# Make data base, printed on Sun Jun 26 21:36:11 2022
 
 # Variables
 
 # environment
 LC_ALL = C
 # environment
-STARSHIP_SESSION_KEY = 2930521434119397
+STARSHIP_SESSION_KEY = 6126263853145314
 # environment
-WSLENV = VSCODE_WSL_EXT_LOCATION/up
+WSLENV = ELECTRON_RUN_AS_NODE/w:WT_SESSION::WT_PROFILE_ID
 # environment
 VSCODE_CWD = /mnt/c/Users/Alexian/AppData/Local/Programs/Microsoft VS Code
 # default
@@ -72,6 +70,8 @@ MAKEFILE_LIST :=
 VSCODE_VERBOSE_LOGGING = true
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
+# environment
+WT_PROFILE_ID = {60c3e313-8e1a-58f6-8175-3650c2bd2b26}
 # automatic
 *F = $(notdir $*)
 # automatic
@@ -85,29 +85,31 @@ SHELL = /bin/sh
 # default
 MAKECMDGOALS := all
 # environment
-SHLVL = 0
+SHLVL = 1
 # environment
 MAKELEVEL := 0
 # default
 MAKE = $(MAKE_COMMAND)
 # environment
-PATH = /home/alexian/.vscode-server/bin/c3511e6c69bb39013c4a4b7b9566ec1ca73fc4d5/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files (x86)/Common Files/Oracle/Java/javapath:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/dotnet/:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files/MATLAB/R2022a/bin:/mnt/c/Users/Alexian/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/Alexian/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Users/Alexian/.dotnet/tools:/mnt/c/Program Files/CMake/bin
+PATH = /home/alexian/.vscode-server/bin/30d9c6cd9483b2cc586687151bcbcd635f373630/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files (x86)/Common Files/Oracle/Java/javapath:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/MATLAB/R2022a/bin:/mnt/c/Program Files/dotnet/:/mnt/c/Program Files/Git/cmd:/mnt/c/Users/Alexian/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/Alexian/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Program Files/CMake/bin:/mnt/c/Users/Alexian/.dotnet/tools
 # default
 MAKEFILES := 
 # automatic
 ^F = $(notdir $^)
 # environment
+WT_SESSION = f09c3045-484f-44f8-bec0-368d7b56b3d3
+# environment
 VSCODE_LOG_NATIVE = false
 # automatic
 ?F = $(notdir $?)
 # environment
-NAME = DESKTOP-K3S9ONH
+NAME = Code
 # environment
 HOSTTYPE = x86_64
 # automatic
 +F = $(notdir $+)
 # environment
-WSL_INTEROP = /run/WSL/17_interop
+WSL_INTEROP = /run/WSL/216_interop
 # 'override' directive
 GNUMAKEFLAGS := 
 # environment
@@ -125,9 +127,9 @@ VSCODE_EXTHOST_WILL_SEND_SOCKET = true
 # environment
 STARSHIP_SHELL = zsh
 # environment
-_ = /home/alexian/.vscode-server/bin/c3511e6c69bb39013c4a4b7b9566ec1ca73fc4d5/node
+_ = /mnt/c/Users/Alexian/AppData/Local/Programs/Microsoft VS Code/bin/code
 # environment
-VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-2673d932-51c9-48a2-af75-e7643d7722dd.sock
+VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-b980a45d-7b88-4043-98e4-aa220553256e.sock
 # environment
 VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 # environment
@@ -147,7 +149,7 @@ WSL_DISTRO_NAME = Ubuntu-22.04
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs archives jobserver output-sync check-symlink load
 # variable set hash-table stats:
-# Load=67/1024=7%, Rehash=0, Collisions=2/94=2%
+# Load=69/1024=7%, Rehash=0, Collisions=2/96=2%
 
 # Pattern-specific Variable Values
 
@@ -207,12 +209,14 @@ GNUmakefile:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 25 / storage = 274 B / avg = 10 B
-# current buf: size = 8162 B / used = 274 B / count = 25 / avg = 10 B
+# strcache buffers: 1 (0) / strings = 25 / storage = 267 B / avg = 10 B
+# current buf: size = 8162 B / used = 267 B / count = 25 / avg = 10 B
 
 # strcache performance: lookups = 28 / hit rate = 10%
 # hash-table stats:
 # Load=25/8192=0%, Rehash=0, Collisions=0/28=0%
-# Finished Make data base on Thu Jun  2 23:23:05 2022
+# Finished Make data base on Sun Jun 26 21:36:11 2022
 
  
+make: *** No rule to make target 'all'.  Stop.
+
